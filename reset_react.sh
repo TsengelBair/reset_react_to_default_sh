@@ -5,6 +5,7 @@
 set -e
 
 SRC_DIR="./src"
+README_FILE="./README.md"
 
 # Проверка, что директория src существует
 if [ ! -d "$SRC_DIR" ]; then
@@ -12,7 +13,7 @@ if [ ! -d "$SRC_DIR" ]; then
     exit 1
 fi
 
-# 1) Удаление ненужных файлов
+# 1) Удаление ненужных файлов из src
 FILES_TO_DELETE=(
     "$SRC_DIR/App.css"
     "$SRC_DIR/App.test.js"
@@ -30,6 +31,14 @@ for file in "${FILES_TO_DELETE[@]}"; do
         echo "Пропущен (не найден): $file"
     fi
 done
+
+# 1.1) Удаление README.md из корня проекта
+if [ -f "$README_FILE" ]; then
+    rm "$README_FILE"
+    echo "Удалён: $README_FILE"
+else
+    echo "Пропущен (не найден): $README_FILE"
+fi
 
 # 2) Очистка и запись нового содержимого в App.js
 cat > "$SRC_DIR/App.js" << 'EOF'
